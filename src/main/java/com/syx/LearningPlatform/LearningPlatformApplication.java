@@ -12,5 +12,6 @@ public class LearningPlatformApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LearningPlatformApplication.class, args);
+        System.out.println("project started success");
     }
 }
