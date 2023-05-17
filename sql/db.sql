@@ -14,6 +14,8 @@ CREATE TABLE videos (
 CREATE TABLE user_video (
                             user_id BIGINT NOT NULL,
                             video_id BIGINT NOT NULL,
+                            favorited BIGINT NOT NULL default 0,
+                            liked BIGINT NOT NULL default 0,
                             PRIMARY KEY (user_id, video_id),
                             FOREIGN KEY (user_id) REFERENCES users(id),
                             FOREIGN KEY (video_id) REFERENCES videos(id)

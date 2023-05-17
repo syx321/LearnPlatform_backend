@@ -8,9 +8,10 @@ spring:
     password: 9652965syx
     type: com.alibaba.druid.pool.DruidDataSource
   jpa:
+    show-sql: true
     open-in-view: false
-#    hibernate:
-#      ddl-auto: update
+    #    hibernate:
+    #      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
