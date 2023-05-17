@@ -81,7 +81,7 @@ public class UserVideoService {
             throw new IllegalArgumentException("not file");
         }
         String[] split = Optional.ofNullable(multipartFile.getOriginalFilename()).orElse("").split("\\.");
-        if (!"mp4".equals(split[1])) {
+        if (!"mp4".equals(split[1]) && !"m3u8".equals(split[1])) {
             throw new IllegalArgumentException("file type error");
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
