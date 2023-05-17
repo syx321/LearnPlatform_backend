@@ -68,7 +68,7 @@ public class VideoService {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(split[split.length - 1], "UTF-8"));
+        response.setHeader("Content-Disposition", "inline;filename=" + URLEncoder.encode(split[split.length - 1], "UTF-8"));
         @Cleanup OutputStream os = response.getOutputStream();
         @Cleanup BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
         byte[] buffer = new byte[1024];
