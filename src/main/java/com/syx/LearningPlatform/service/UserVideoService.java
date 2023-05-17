@@ -86,7 +86,7 @@ public class UserVideoService {
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
-        String filePath = path + split[0] + System.currentTimeMillis() + ".mp4";
+        String filePath = path + split[0] + System.currentTimeMillis() + ".m3u8";
         @Cleanup FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         @Cleanup BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
         @Cleanup BufferedInputStream bufferedInputStream = new BufferedInputStream(multipartFile.getInputStream());
