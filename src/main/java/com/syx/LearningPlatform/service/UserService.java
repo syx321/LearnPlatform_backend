@@ -56,6 +56,18 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void unfollowUser(Long userId, Long followedUserId) {
+        User user = userRepository.findById(userId).orElse(null);
+        User followedUser = userRepository.findById(followedUserId).orElse(null);
+
+        if (user == null || followedUser == null) {
+            throw new IllegalArgumentException("Invalid user or followed user ID");
+        }
+
+        user.getFollowing().remove(followedUser);
+        userRepository.save(user);
+    }
+
     public void favoriteVideo(Long userId, Long videoId) {
         User user = userRepository.findById(userId).orElse(null);
         Video video = videoRepository.findById(videoId).orElse(null);
@@ -71,6 +83,18 @@ public class UserService {
         userVideo.setVideo(video);
 
         userVideoRepository.save(userVideo);
+    }
+
+    public void unfavoriteVideo(Long userId, Long videoId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Video video = videoRepository.findById(videoId).orElse(null);
+
+        if (user == null || video == null) {
+            throw new IllegalArgumentException("Invalid user or video ID");
+        }
+
+        UserVideoId userVideoId = new UserVideoId(userId, videoId);
+        userVideoRepository.deleteById(userVideoId);
     }
 
     public List<Video> getFeed(Long userId) {
