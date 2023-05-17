@@ -1,0 +1,20 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pure-design?serverTimezone=GMT%2b8&useSSL=false
+    username: root
+    password: 9652965syx
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    open-in-view: false
+#    hibernate:
+#      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
