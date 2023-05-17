@@ -65,7 +65,7 @@ public class UserController {
         return ResponseEntity.ok(feed);
     }
 
-    @GetMapping("/{userId}/myData")
+    @GetMapping("/{userId}/getUserData")
     public ResponseEntity<User> getMyData(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
