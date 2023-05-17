@@ -2,7 +2,6 @@ package com.syx.LearningPlatform.model;
 
 import org.springframework.data.annotation.Id;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,11 +28,17 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_following",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id"))
+            inverseJoinColumns = @JoinColumn(name = "following_user_id"))
     private Set<User> following = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorites_video_id"))
+    private Set<Video> favorites = new HashSet<>();
 
     // Constructors
     public User() {
@@ -84,5 +89,22 @@ public class User {
 
     public void unfollow(User user) {
         following.remove(user);
+    }
+
+    public Set<Video> getFavorites() {
+        return this.favorites;
+    }
+
+    public void setFavorites(Set<Video> favorites) {
+        this.favorites = favorites;
+    }
+
+    // Other methods
+    public void favorites(Video video) {
+        favorites.add(video);
+    }
+
+    public void unFavorites(Video video) {
+        favorites.remove(video);
     }
 }

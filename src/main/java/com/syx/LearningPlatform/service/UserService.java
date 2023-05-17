@@ -82,4 +82,8 @@ public class UserService {
 
         return videoRepository.findAllById(videoIds);
     }
+
+    public User getUserById(Long userId){
+        return userRepository.findById(userId).orElse(null);
+    }
 }

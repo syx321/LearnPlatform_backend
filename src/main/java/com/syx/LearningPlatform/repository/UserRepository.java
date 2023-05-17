@@ -23,13 +23,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.following = :unfollowedUser WHERE u.id = :userId")
     void removeFollowing(@Param("userId") Long userId, @Param("unfollowedUser") User unfollowedUser);
 
-//    // 添加收藏关系
-//    @Modifying
-//    @Query("UPDATE User u SET u.favorites = :video WHERE u.id = :userId")
-//    void addFavorite(@Param("userId") Long userId, @Param("video") Video video);
-//
-//    // 移除收藏关系
-//    @Modifying
-//    @Query("UPDATE User u SET u.favorites = :video WHERE u.id = :userId")
-//    void removeFavorite(@Param("userId") Long userId, @Param("video") Video video);
+    // 添加收藏关系
+    @Modifying
+    @Query("UPDATE User u SET u.favorites = :video WHERE u.id = :userId")
+    void addFavorite(@Param("userId") Long userId, @Param("video") Video video);
+   // 移除收藏关系
+   @Modifying
+   @Query("UPDATE User u SET u.favorites = :video WHERE u.id = :userId")
+   void removeFavorite(@Param("userId") Long userId, @Param("video") Video video);
 }

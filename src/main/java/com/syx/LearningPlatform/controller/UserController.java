@@ -7,7 +7,13 @@ import com.syx.LearningPlatform.model.Video;
 import com.syx.LearningPlatform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -32,7 +38,7 @@ public class UserController {
         User user = null;
         try {
             user = userService.loginUser(loginDTO.getUsername(), loginDTO.getPassword());
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             UserRegistrationDTO registrationDTO = new UserRegistrationDTO(loginDTO.getUsername(), loginDTO.getPassword());
             user = this.registerUser(registrationDTO).getBody();
         }
@@ -57,5 +63,10 @@ public class UserController {
     public ResponseEntity<List<Video>> getFeed(@PathVariable("userId") Long userId) {
         List<Video> feed = userService.getFeed(userId);
         return ResponseEntity.ok(feed);
+    }
+
+    @GetMapping("/{userId}/myData")
+    public ResponseEntity<User> getMyData(@PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 }
