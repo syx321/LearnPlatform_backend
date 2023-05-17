@@ -52,11 +52,25 @@ public class UserController {
         return ResponseEntity.ok("User followed successfully");
     }
 
+    @PostMapping("/{userId}/unfollow")
+    public ResponseEntity<String> unfollowUser(@PathVariable("userId") Long userId,
+                                             @RequestParam("followedUserId") Long followedUserId) {
+        userService.unfollowUser(userId, followedUserId);
+        return ResponseEntity.ok("User followed successfully");
+    }
+
     @PostMapping("/{userId}/favorite")
     public ResponseEntity<String> favoriteVideo(@PathVariable("userId") Long userId,
                                                 @RequestParam("videoId") Long videoId) {
         userService.favoriteVideo(userId, videoId);
         return ResponseEntity.ok("Video favorited successfully");
+    }
+
+    @PostMapping("/{userId}/unfavorite")
+    public ResponseEntity<String> unfavoriteVideo(@PathVariable("userId") Long userId,
+                                                @RequestParam("videoId") Long videoId) {
+        userService.unfavoriteVideo(userId, videoId);
+        return ResponseEntity.ok("Video unfavorited successfully");
     }
 
     @GetMapping("/{userId}/feed")
