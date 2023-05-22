@@ -3,7 +3,7 @@ CREATE TABLE users
     id           BIGINT AUTO_INCREMENT PRIMARY KEY,
     username     VARCHAR(255) NOT NULL,
     password     VARCHAR(255) NOT NULL,
-    avatarUrl          VARCHAR(255) NOT NULL,
+    avatar_url          VARCHAR(255) NOT NULL,
     created_time timestamp NULL default CURRENT_TIMESTAMP
 );
 

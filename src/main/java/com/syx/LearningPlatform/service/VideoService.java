@@ -1,7 +1,11 @@
 package com.syx.LearningPlatform.service;
 
 import com.syx.LearningPlatform.DTO.VideoDTO;
+import com.syx.LearningPlatform.model.User;
+import com.syx.LearningPlatform.model.UserVideo;
 import com.syx.LearningPlatform.model.Video;
+import com.syx.LearningPlatform.repository.UserRepository;
+import com.syx.LearningPlatform.repository.UserVideoRepository;
 import com.syx.LearningPlatform.repository.VideoRepository;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -20,11 +24,15 @@ import java.util.List;
 public class VideoService {
     private final VideoRepository videoRepository;
     private final HttpServletResponse response;
+    private final UserVideoRepository userVideoRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public VideoService(VideoRepository videoRepository, HttpServletResponse ht) {
+    public VideoService(VideoRepository videoRepository, HttpServletResponse ht, UserVideoRepository userVideoRepository, UserRepository userRepository) {
         this.videoRepository = videoRepository;
         this.response = ht;
+        this.userVideoRepository = userVideoRepository;
+        this.userRepository = userRepository;
     }
 
     public Video createVideo(VideoDTO videoDTO) {
@@ -36,9 +44,15 @@ public class VideoService {
         return videoRepository.save(video);
     }
 
-    public Video getVideoById(Long videoId) {
-        return videoRepository.findById(videoId)
+    public UserVideo getVideoById(Long videoId) {
+        Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new IllegalArgumentException("Video not found with id: " + videoId));
+        Long userId = userVideoRepository.findUserId(video.getId()).get(0);
+        User byId = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Video not found with id: " + videoId));
+        UserVideo userVideo = new UserVideo();
+        userVideo.setVideo(video);
+        userVideo.setUser(byId);
+        return userVideo;
     }
 
     public List<Video> getAllVideos() {
@@ -46,16 +60,17 @@ public class VideoService {
     }
 
     public void deleteVideo(Long videoId) {
-        Video video = getVideoById(videoId);
-        videoRepository.delete(video);
+        UserVideo video = getVideoById(videoId);
+        videoRepository.delete(video.getVideo());
     }
 
     public Video updateVideo(Long id, VideoDTO videoDTO) {
-        Video existingVideo = getVideoById(id);
-        existingVideo.setTitle(videoDTO.getTitle());
-        existingVideo.setDescription(videoDTO.getDescription());
-        existingVideo.setUrl(videoDTO.getUrl());
-        return videoRepository.save(existingVideo);
+        UserVideo existingVideo = getVideoById(id);
+        Video video = existingVideo.getVideo();
+        video.setTitle(videoDTO.getTitle());
+        video.setDescription(videoDTO.getDescription());
+        video.setUrl(videoDTO.getUrl());
+        return videoRepository.save(video);
     }
 
     @SneakyThrows

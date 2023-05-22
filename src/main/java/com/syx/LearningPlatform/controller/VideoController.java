@@ -1,6 +1,7 @@
 package com.syx.LearningPlatform.controller;
 
 import com.syx.LearningPlatform.DTO.VideoDTO;
+import com.syx.LearningPlatform.model.UserVideo;
 import com.syx.LearningPlatform.model.Video;
 import com.syx.LearningPlatform.service.VideoService;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ public class VideoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Video> getVideoById(@PathVariable("id") Long id) {
-        Video video = videoService.getVideoById(id);
+    public ResponseEntity<UserVideo> getVideoById(@PathVariable("id") Long id) {
+        UserVideo video = videoService.getVideoById(id);
         if (video != null) {
             return ResponseEntity.ok(video);
         } else {
@@ -70,4 +71,3 @@ public class VideoController {
         return ResponseEntity.ok().build();
     }
 }
-

@@ -32,20 +32,21 @@ public class Video {
     @JsonProperty("videoUrl")
     private String videoUrl;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_video",
-            joinColumns = @JoinColumn(name = "video_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private User user;
-
-    @JsonProperty("ownerId")
-    private Long ownerId;
-
-    @JsonProperty("ownerName")
-    private String ownerName;
-
-    @JsonProperty("ownerAvatarUrlStr")
-    private String ownerAvatar;
+    //@OneToOne(fetch = FetchType.EAGER)
+    //@JoinTable(name = "user_video",
+    //        joinColumns = @JoinColumn(name = "video_id"),
+    //        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    //private User user;
+    //
+    //@JsonProperty("ownerId")
+    //private Long ownerId;
+    //
+    //@JsonProperty("ownerName")
+    //@Column()
+    //private String ownerName;
+    //
+    //@JsonProperty("ownerAvatarUrlStr")
+    //private String ownerAvatar;
 
     // Constructors
     public Video() {
@@ -102,18 +103,18 @@ public class Video {
     public int hashCode() {
         return Objects.hash(id);
     }
-
-    public String getOwnerAvatar() {
-        return user.getAvatarUrl();
-    }
-
-    public String getOwnerName() {
-        return user.getUsername();
-    }
-
-    public Long getOwnerId() {
-        return user.getId();
-    }
+    //
+    //public String getOwnerAvatar() {
+    //    return user.getAvatarUrl();
+    //}
+    //
+    //public String getOwnerName() {
+    //    return user.getUsername();
+    //}
+    //
+    //public Long getOwnerId() {
+    //    return user.getId();
+    //}
 }
 
 
