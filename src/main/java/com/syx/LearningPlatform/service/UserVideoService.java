@@ -17,7 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserVideoService {
@@ -57,12 +58,14 @@ public class UserVideoService {
     public void favoriteVideo(Long userId, Long videoId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
         Video video = videoRepository.findById(videoId).orElseThrow(() -> new IllegalArgumentException("Video not found with id: " + videoId));
+        user.getFavorites().add(video);
 
-        UserVideoId userVideoId = new UserVideoId(user.getId(), video.getId());
-        UserVideo userVideo = new UserVideo(userVideoId, user, video);
-        userVideo.setFavorited(true);
+        userRepository.save(user);
+    }
 
-        userVideoRepository.save(userVideo);
+    public List<Video> getFavoriteVideos(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        return user.getFavorites().stream().collect(Collectors.toList());
     }
 
     public void unfavoriteVideo(Long userId, Long videoId) {
@@ -99,4 +102,6 @@ public class UserVideoService {
         UserVideoId userVideoId = new UserVideoId(user.getId(), video.getId());
         userVideoRepository.save(new UserVideo(userVideoId, user, video));
     }
+
+
 }

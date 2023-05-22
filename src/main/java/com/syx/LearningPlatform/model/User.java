@@ -20,6 +20,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String avatarUrl;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_following",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -98,5 +100,9 @@ public class User {
 
     public void unFavorites(Video video) {
         favorites.remove(video);
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 }

@@ -37,8 +37,12 @@ public class UserService {
     public User loginUser(String username, String password) {
         User user = userRepository.findByUsername(username);
 
-        if (user == null || !user.getPassword().equals(password)) {
-            throw new IllegalArgumentException("Invalid username or password");
+        if (user == null ) {
+            throw new IllegalArgumentException("Invalid user");
+        }
+
+        if (!user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("wrong password");
         }
 
         return user;
@@ -54,6 +58,16 @@ public class UserService {
 
         user.getFollowing().add(followedUser);
         userRepository.save(user);
+    }
+
+    public List<User> getFollowing(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
+
+        return user.getFollowing().stream().collect(Collectors.toList());
     }
 
     public void unfollowUser(Long userId, Long followedUserId) {
@@ -110,4 +124,5 @@ public class UserService {
     public User getUserById(Long userId){
         return userRepository.findById(userId).orElse(null);
     }
+
 }

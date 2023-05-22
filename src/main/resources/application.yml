@@ -1,11 +1,11 @@
 server:
   port: 9090
 file:
-  path: /Users/machunfei/Desktop/
+  path: /Users/suyixiao/Desktop/
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pure-design?serverTimezone=GMT%2b8&useSSL=false
+    url: jdbc:mysql://localhost:3306/LearningPlatform?serverTimezone=GMT%2b8&useSSL=false
     username: root
     password: 9652965syx
     type: com.alibaba.druid.pool.DruidDataSource

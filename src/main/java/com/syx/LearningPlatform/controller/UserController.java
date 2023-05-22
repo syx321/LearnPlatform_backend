@@ -39,8 +39,12 @@ public class UserController {
         try {
             user = userService.loginUser(loginDTO.getUsername(), loginDTO.getPassword());
         } catch (IllegalArgumentException e) {
-            UserRegistrationDTO registrationDTO = new UserRegistrationDTO(loginDTO.getUsername(), loginDTO.getPassword());
-            user = this.registerUser(registrationDTO).getBody();
+            if (e.getMessage().equals("Invalid user")) {
+                UserRegistrationDTO registrationDTO = new UserRegistrationDTO(loginDTO.getUsername(), loginDTO.getPassword());
+                user = this.registerUser(registrationDTO).getBody();
+            } else {
+                return ResponseEntity.ok(null);
+            }
         }
         return ResponseEntity.ok(user);
     }
@@ -50,6 +54,12 @@ public class UserController {
                                              @RequestParam("followedUserId") Long followedUserId) {
         userService.followUser(userId, followedUserId);
         return ResponseEntity.ok("User followed successfully");
+    }
+
+    @GetMapping("/{userId}/following")
+    public ResponseEntity<List<User>> getFollowing(@PathVariable("userId") Long userId) {
+        List<User> following = userService.getFollowing(userId);
+        return ResponseEntity.ok(following);
     }
 
     @PostMapping("/{userId}/unfollow")
