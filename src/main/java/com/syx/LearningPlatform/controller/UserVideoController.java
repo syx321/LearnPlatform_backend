@@ -46,6 +46,11 @@ public class UserVideoController {
         userVideoService.unfavoriteVideo(userId, videoId);
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/{otheruUserId}/unfollowing")
+    public ResponseEntity<Void> unfollowing(@PathVariable("userId") Long userId, @PathVariable("otheruUserId") Long ownerId) {
+        userVideoService.unfavoriteVideo(userId, ownerId);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<Void> upload(@PathVariable("userId") Long userId, @RequestParam("video") MultipartFile multipartFile, VideoDTO v) {

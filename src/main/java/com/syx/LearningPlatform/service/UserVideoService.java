@@ -68,14 +68,20 @@ public class UserVideoService {
         return user.getFavorites().stream().collect(Collectors.toList());
     }
 
+    public void unFavorite(Long userId, Long videoId) {
+
+    }
+
     public void unfavoriteVideo(Long userId, Long videoId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
         Video video = videoRepository.findById(videoId).orElseThrow(() -> new IllegalArgumentException("Video not found with id: " + videoId));
+        userRepository.removeFavorite(user.getId(), video.getId());
+    }
 
-        UserVideoId userVideoId = new UserVideoId(user.getId(), video.getId());
-        UserVideo userVideo = userVideoRepository.findById(userVideoId).orElseThrow(() -> new IllegalArgumentException("UserVideo not found for user id: " + userId + " and video id: " + videoId));
-
-        userVideoRepository.delete(userVideo);
+    public void unFollowUser(Long userId, Long uid) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        User otherUser = userRepository.findById(uid).orElseThrow(() -> new IllegalArgumentException("Video not found with id: " + uid));
+        userRepository.removeFollowing(user.getId(), otherUser.getId());
     }
 
     @SneakyThrows
