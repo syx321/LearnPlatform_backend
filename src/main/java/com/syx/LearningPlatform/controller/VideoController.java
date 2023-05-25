@@ -34,8 +34,9 @@ public class VideoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserVideo> getVideoById(@PathVariable("id") Long id) {
-        UserVideo video = videoService.getVideoById(id);
+    public ResponseEntity<UserVideo> getVideoById(@PathVariable("id") String id) {
+        Long idL = Long.parseLong(id);
+        UserVideo video = videoService.getVideoById(idL);
         if (video != null) {
             return ResponseEntity.ok(video);
         } else {

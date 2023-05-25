@@ -1,5 +1,6 @@
 package com.syx.LearningPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
@@ -20,6 +21,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "avatar_url")
+    @JsonProperty("avatarUrl")
     private String avatarUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)

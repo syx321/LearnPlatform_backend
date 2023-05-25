@@ -34,38 +34,45 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestBody UserLoginDTO loginDTO) {
+    public ResponseEntity<User> loginUser(@RequestParam("username") String username,
+                                          @RequestParam("password") String password) {
         User user = null;
         try {
-            user = userService.loginUser(loginDTO.getUsername(), loginDTO.getPassword());
+            user = userService.loginUser(username, password);
         } catch (IllegalArgumentException e) {
-            if (e.getMessage().equals("Invalid user")) {
-                UserRegistrationDTO registrationDTO = new UserRegistrationDTO(loginDTO.getUsername(), loginDTO.getPassword());
-                user = this.registerUser(registrationDTO).getBody();
+            User registeredUser = userService.getUserByName(username);
+            if (registeredUser != null) {
+                return ResponseEntity.badRequest().build();
             } else {
-                return ResponseEntity.ok(null);
+                UserRegistrationDTO registrationDTO = new UserRegistrationDTO(username, password);
+                user = this.registerUser(registrationDTO).getBody();
             }
         }
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/{userId}/follow")
-    public ResponseEntity<String> followUser(@PathVariable("userId") Long userId,
-                                             @RequestParam("followedUserId") Long followedUserId) {
-        userService.followUser(userId, followedUserId);
+    public ResponseEntity<String> followUser(@PathVariable("userId") String userId,
+                                             @RequestParam("followedUserId") String followedUserId) {
+        Long idL = Long.parseLong(userId);
+        Long followL = Long.parseLong(followedUserId);
+        userService.followUser(idL, followL);
         return ResponseEntity.ok("User followed successfully");
     }
 
     @GetMapping("/{userId}/following")
-    public ResponseEntity<List<User>> getFollowing(@PathVariable("userId") Long userId) {
-        List<User> following = userService.getFollowing(userId);
+    public ResponseEntity<List<User>> getFollowing(@PathVariable("userId") String userId) {
+        Long idL = Long.parseLong(userId);
+        List<User> following = userService.getFollowing(idL);
         return ResponseEntity.ok(following);
     }
 
     @PostMapping("/{userId}/unfollow")
-    public ResponseEntity<String> unfollowUser(@PathVariable("userId") Long userId,
-                                             @RequestParam("followedUserId") Long followedUserId) {
-        userService.unfollowUser(userId, followedUserId);
+    public ResponseEntity<String> unfollowUser(@PathVariable("userId") String userId,
+                                             @RequestParam("followedUserId") String followedUserId) {
+        Long idL = Long.parseLong(userId);
+        Long followL = Long.parseLong(followedUserId);
+        userService.unfollowUser(idL, followL);
         return ResponseEntity.ok("User followed successfully");
     }
 
@@ -77,20 +84,24 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/unfavorite")
-    public ResponseEntity<String> unfavoriteVideo(@PathVariable("userId") Long userId,
-                                                @RequestParam("videoId") Long videoId) {
-        userService.unfavoriteVideo(userId, videoId);
+    public ResponseEntity<String> unfavoriteVideo(@PathVariable("userId") String userId,
+                                                @RequestParam("videoId") String videoId) {
+        Long idL = Long.parseLong(userId);
+        Long videoL = Long.parseLong(videoId);
+        userService.unfavoriteVideo(idL, videoL);
         return ResponseEntity.ok("Video unfavorited successfully");
     }
 
     @GetMapping("/{userId}/feed")
-    public ResponseEntity<List<Video>> getFeed(@PathVariable("userId") Long userId) {
-        List<Video> feed = userService.getFeed(userId);
+    public ResponseEntity<List<Video>> getFeed(@PathVariable("userId") String userId) {
+        Long idL = Long.parseLong(userId);
+        List<Video> feed = userService.getFeed(idL);
         return ResponseEntity.ok(feed);
     }
 
-    @GetMapping("/{userId}/getUserData")
-    public ResponseEntity<User> getMyData(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(userService.getUserById(userId));
+    @GetMapping("/{userId}/getUserDataId")
+    public ResponseEntity<User> getMyData(@PathVariable("userId") String userId) {
+        Long idL = Long.parseLong(userId);
+        return ResponseEntity.ok(userService.getUserById(idL));
     }
 }

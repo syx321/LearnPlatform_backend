@@ -125,4 +125,7 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
